@@ -1,0 +1,70 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+ENTITY LogicalStep_Lab4_top IS
+   PORT
+	(
+	Clk			: in	std_logic;
+	pb_n			: in	std_logic_vector(3 downto 0);
+ 	sw   			: in  std_logic_vector(7 downto 0); 
+	leds			: out std_logic_vector(7 downto 0);
+
+------------------------------------------------------------------	
+	xreg, yreg	: out std_logic_vector(3 downto 0);-- (for SIMULATION only)
+	xPOS, yPOS	: out std_logic_vector(3 downto 0);-- (for SIMULATION only)
+------------------------------------------------------------------	
+   seg7_data 	: out std_logic_vector(6 downto 0); -- 7-bit outputs to a 7-segment display (for LogicalStep only)
+	seg7_char1  : out	std_logic;				    		-- seg7 digit1 selector (for LogicalStep only)
+	seg7_char2  : out	std_logic				    		-- seg7 digit2 selector (for LogicalStep only)
+	
+	);
+END LogicalStep_Lab4_top;
+
+ARCHITECTURE Circuit OF LogicalStep_Lab4_top IS
+
+-- Provided Project Components Used
+------------------------------------------------------------------- 
+COMPONENT Clock_Source 	port (SIM_FLAG: in boolean;clk_input: in std_logic;clock_out: out std_logic);
+END COMPONENT;
+
+--component SevenSegment
+--  port 
+--   (
+--      hex	   :  in  std_logic_vector(3 downto 0);   -- The 4 bit data to be displayed
+--      sevenseg :  out std_logic_vector(6 downto 0)    -- 7-bit outputs to a 7-segment
+--   ); 
+--end component SevenSegment;
+--
+--component segment7_mux 
+--  port 
+--   (
+--      clk        : in  std_logic := '0';
+--		DIN2 		: in  std_logic_vector(6 downto 0);	
+--		DIN1 		: in  std_logic_vector(6 downto 0);
+--		DOUT			: out	std_logic_vector(6 downto 0);
+--		DIG2			: out	std_logic;
+--		DIG1			: out	std_logic
+--   );
+--end component segment7_mux;
+------------------------------------------------------------------
+-- Add any Other Components here
+------------------------------------------------------------------
+
+
+------------------------------------------------------------------
+-- provided signals
+-------------------------------------------------------------------
+------------------------------------------------------------------	
+constant SIM_FLAG : boolean := TRUE; -- set to FALSE when compiling for FPGA download to LogicalStep board
+------------------------------------------------------------------	
+------------------------------------------------------------------	
+-- Create any additional internal signals to be used
+signal clk_in, clock	: std_logic;
+	
+BEGIN
+clk_in <= clk;
+
+Clock_Selector: Clock_source port map(SIM_FLAG, clk_in, clock);
+
+END Circuit;

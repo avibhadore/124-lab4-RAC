@@ -1,0 +1,13 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+
+ENTITY register_normal IS
+PORT
+	(
+		clk 		: IN std_logic := '0';
+		enable 	: IN std_logic := '0';
+		reset		: IN std_logic := '0';
+		reg_bits : OUT std_logic_vector(3 downto 0);
+	);

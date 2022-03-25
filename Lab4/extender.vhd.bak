@@ -1,0 +1,12 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+
+ENTITY extender IS
+PORT
+	(
+		extender_en : IN std_logic;
+		clk_en 		: OUT std_logic;
+		left_right	: OUT std_logic;
+	);
