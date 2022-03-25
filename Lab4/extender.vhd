@@ -13,7 +13,7 @@ PORT
 		extender_out	: OUT std_logic := '0';
 		clk_en 			: OUT std_logic;
 		left_right		: OUT std_logic;
-		grappler_en		: OUT std_logic;
+		grappler_en		: OUT std_logic
 	);
 
 	
