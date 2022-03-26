@@ -8,7 +8,7 @@ PORT
 		RESET			: IN std_logic;
 		grappler_in	: IN std_logic;
 		grappler_en		: IN std_logic;
-		grappler_on  : OUT std_logic;
+		grappler_on  : OUT std_logic
 
 	);
 	
