@@ -6,22 +6,8 @@ USE ieee.numeric_std.ALL;
 ENTITY XY_motion IS
 PORT
 	(
-		X_GT				: IN std_logic;
-		X_EQ				: IN std_logic;
-		X_LT				: IN std_logic;
-		motion			: IN std_logic;
-		Y_GT				: IN std_logic;
-		Y_EQ				: IN std_logic;
-		Y_LT				: IN std_logic;
-		extender_out	: IN std_logic;
-		
-		clk_en_X			: OUT std_logic := '0';
-		clk_en_Y			: OUT std_logic := '0';
-		up_down_X		: OUT std_logic := '0';
-		up_down_Y		: OUT std_logic := '0';
-		error				: OUT std_logic := '0';
-		Capture_XY		: OUT std_logic := '0';
-		extender_en		: OUT std_logic := '0';
+		X_GT, X_EQ, X_LT, motion, Y_GT, Y_EQ, Y_LT, extender_out	: IN std_logic;
+		clk_en_X, clk_en_Y, up_down_X, up_down_Y, error, Capture_XY, extender_en	: OUT std_logic := '0';
 	);
 	
 ARCHITECTURE XY_motion_architecture OF XY_motion IS
@@ -120,33 +106,3 @@ END PROCESS;
 
 
 END;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
