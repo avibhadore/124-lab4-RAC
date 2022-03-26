@@ -66,11 +66,12 @@ END COMPONENT Inverter;
 -- Grappler
 COMPONENT Grappler
 PORT 
-	(clk: in std_logic;
-	reset : in std_logic;
-	grappler_in	: IN std_logic;
-	grappler_en		: IN std_logic;
-	grappler_on  : OUT std_logic
+	(
+		clk			 : IN std_logic;
+		reset 		 : IN std_logic;
+		grappler_in	 : IN std_logic;
+		grappler_en	 : IN std_logic;
+		grappler_on  : OUT std_logic
 	);
 END COMPONENT Grappler;
 
@@ -260,12 +261,49 @@ Y_target <= sw(3 downto 0);
 
 
 -- ___________________________________________INSTANTATIONS_______________________________________________
-Inverter				: Inverter 					PORT MAP (pb_n(3), pb_n(2), pb_n(1), pb_n(0), RESET, motion, extender, grappler);
 
-Clock_Selector		: Clock_source 			port map (SIM_FLAG, clk_in, clock);
---shift_register1	: Bidir_shift_reg 		port map (clock,NOT(pb_n(0)), sw(0),sw(1), leds(7 downto 0));
-Counter_4bit1 		: U_D_Bin_Counter4bit 	PORT MAP (clock, NOT(pb_n(0)), sw(0), sw(1), leds(7 downto 0)); --is this, supposed to be a NOT??
-Grappler				: Grappler					PORT MAP (clock, RESET, grappler, grappler_en, leds(1));   --note, grappler_en won't work until the Extender is instantiated.
+Clock_Selector		: Clock_source 		 PORT MAP (SIM_FLAG, clk_in, clock);
+
+-- Inverter
+Inverter1			: Inverter				 PORT MAP (pb_n(3), pb_n(2), pb_n(1), pb_n(0), RESET, motion, extender, grappler);
+
+-- Extender
+Extender1			: Extender				 PORT MAP (extender, extender_en, ext_pos, extender_out, clk_en_reg4, left_right, grappler_en);
+
+-- Reg4
+Reg4					: Bidir_shift_reg		 PORT MAP (clk_in, RESET, clk_en_reg4, left_right, ext_pos);
+
+-- XY Motion
+XY_Motion1			: XY_motion				 PORT MAP (X_GT, X_EQ, X_LT, motion, Y_GT, Y_EQ, Y_LT, extender_out,
+											 clk_en_X, clk_en_Y, up_down_X, up_down_Y, error, Capture_XY, extender_en);
+											 
+-- Grappler
+Grappler				: Grappler				 PORT MAP (clock, RESET, grappler, grappler_en, grappler_on);
+
+-- X Counter
+X_counter			: U_D_Bin_Counter4bit PORT MAP (clk_in, RESET, up_down_X, X_pos);
+-- X Register (Target X)
+X_register			: normal_register 	 PORT MAP (clk_in, Capture_XY, RESET, X_target, X_reg);
+
+-- Y Counter
+Y_Counter			: U_D_Bin_Counter4bit PORT MAP (clk_in, RESET, up_down_Y, Y_pos);
+-- Y Register (Target Y)
+X_register			: normal_register 	 PORT MAP (clk_in, Capture_XY, RESET, Y_target, Y_reg);
+
+-- X 4-Bit Comparator
+X_4bitComparator	: compx4 				 PORT MAP (X_pos, X_reg, X_GT, X_EQ, X_LT);
+
+-- Y 4-Bit Comparator
+X_4bitComparator	: compx4 				 PORT MAP (Y_pos, Y_reg, Y_GT, Y_EQ, Y_LT);
+
+-- X SevenSegment
+X_SevenSegment		: SevenSegment 		 PORT MAP (X_pos, X_sevenseg_out);
+
+-- Y SevenSegment
+Y_SevenSegment		: SevenSegment 		 PORT MAP (Y_pos, Y_sevenseg_out);
+
+-- Seven Segment Multiplexer
+SevenSegMux			: segment7_mux 		 PORT MAP (clk_in, X_sevenseg_out, Y_sevenseg_out, seg7_data, seg7_char1, seg7_char2);
 -- _______________________________________________________________________________________________________
 
 
@@ -273,5 +311,9 @@ Grappler				: Grappler					PORT MAP (clock, RESET, grappler, grappler_en, leds(1
 leds(5 downto 2) <= ext_pos;
 leds(0) <= error;
 leds(1) <= grappler_on;
+
+
+
+
 
 END Circuit;
