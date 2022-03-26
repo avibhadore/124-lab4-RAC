@@ -7,7 +7,7 @@ ENTITY XY_motion IS
 PORT
 	(
 		X_GT, X_EQ, X_LT, motion, Y_GT, Y_EQ, Y_LT, extender_out	: IN std_logic;
-		clk_en_X, clk_en_Y, up_down_X, up_down_Y, error, Capture_XY, extender_en	: OUT std_logic := '0';
+		clk_en_X, clk_en_Y, up_down_X, up_down_Y, error, Capture_XY, extender_en	: OUT std_logic := '0'
 	);
 	
 ARCHITECTURE XY_motion_architecture OF XY_motion IS
