@@ -64,7 +64,15 @@ END COMPONENT Inverter;
 
 -- Component 2
 -- Grappler
-
+COMPONENT Grappler
+PORT 
+	(clk: in std_logic;
+	reset : in std_logic;
+	grappler_in	: IN std_logic;
+	grappler_en		: IN std_logic;
+	grappler_on  : OUT std_logic
+	);
+END COMPONENT Grappler;
 
 
 -- Component 3
@@ -252,10 +260,12 @@ Y_target <= sw(3 downto 0);
 
 
 -- ___________________________________________INSTANTATIONS_______________________________________________
+Inverter				: Inverter 					PORT MAP (pb_n(3), pb_n(2), pb_n(1), pb_n(0), RESET, motion, extender, grappler);
 
 Clock_Selector		: Clock_source 			port map (SIM_FLAG, clk_in, clock);
 --shift_register1	: Bidir_shift_reg 		port map (clock,NOT(pb_n(0)), sw(0),sw(1), leds(7 downto 0));
-Counter_4bit1 		: U_D_Bin_Counter4bit 	PORT MAP (clock, NOT(pb_n(0)), sw(0), sw(1), leds(7 downto 0));
+Counter_4bit1 		: U_D_Bin_Counter4bit 	PORT MAP (clock, NOT(pb_n(0)), sw(0), sw(1), leds(7 downto 0)); --is this, supposed to be a NOT??
+Grappler				: Grappler					PORT MAP (clock, RESET, grappler, grappler_en, leds(1));   --note, grappler_en won't work until the Extender is instantiated.
 -- _______________________________________________________________________________________________________
 
 
