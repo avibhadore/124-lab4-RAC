@@ -24,7 +24,7 @@ BEGIN
 	
 		if (X_EQ = '0' OR Y_EQ = '0') then
 			motion_1yes_0no <= '0';
-		else then
+		else
 			motion_1yes_0no <= '1';
 		end if;
 		
